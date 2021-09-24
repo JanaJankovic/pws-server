@@ -1,9 +1,15 @@
 var mongoose = require('mongoose');
-var plantSchema = require('./plantModel.js');
 var Schema   = mongoose.Schema;
 
 var logSchema = new Schema({
-	'plant' : plantSchema,
+	'plant_id' : {
+	 	type: Schema.Types.ObjectId,
+	 	ref: 'plant'
+	},
+	'user_id' : {
+		type: Schema.Types.ObjectId,
+		ref: 'user'
+   },
 	'history' : [String]
 });
 

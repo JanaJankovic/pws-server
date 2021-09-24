@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-var logSchema = require('./logModel');
 var Schema   = mongoose.Schema;
 
 var notificationSchema = new Schema({
@@ -12,7 +11,6 @@ var notificationSchema = new Schema({
 var userSchema = new Schema({
 	'email' : String,
 	'password' : String,
-	'log' : [logSchema],
 	'notifications' : [notificationSchema]
 });
 
