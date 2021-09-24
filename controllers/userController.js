@@ -51,9 +51,12 @@ module.exports = {
      * userController.create()
      */
     create: function (req, res) {
+        console.log(req.body);
         var user = new UserModel({
 			email : req.body.email,
-			password : req.body.password
+			password : req.body.password,
+            log: [], 
+            notifications: []
         });
 
         user.save(function (err, user) {
