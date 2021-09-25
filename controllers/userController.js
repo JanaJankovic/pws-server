@@ -76,8 +76,15 @@ module.exports = {
     },
 
     /**
-     * CREATE USER
-     */
+        CREATE USER
+     
+        body :
+        { 
+            "email" : String,
+            "password" : String,
+            "ip" : String
+        }
+    */
     createUser: function (req, res) {
         console.log(req.body);
         var user = new UserModel({
@@ -105,9 +112,9 @@ module.exports = {
 
     body :
     { 
-        'latin_name' : String,
-        'pin' : Number,
-        'mac_address' : String
+        "latin_name" : String,
+        "pin" : Number,
+        "mac_address" : String
     }
     
     */
@@ -190,10 +197,10 @@ module.exports = {
 
     body :
     { 
-        'title' : String,
-        'type' : String,
-        'note' : String,
-        'date_time' : String
+        "title" : String,
+        "type" : String,
+        "note" : String,
+        "date_time" : String
     }
     
     */
@@ -299,10 +306,10 @@ module.exports = {
 
     body :
     { 
-        'latin_name' : String,
-        'pin' : Number,
-        'date_time' : String, 
-        'mac_address' : String
+        "latin_name" : String,
+        "pin" : Number,
+        "date_time" : String, 
+        "mac_address" : String
     }
     
     */
@@ -408,10 +415,11 @@ module.exports = {
         });
     },
 
-    /**
-     * userController.remove()
-     */
-    remove: function (req, res) {
+    /*
+        DELETE USER
+
+    */
+    removeUser: function (req, res) {
         var id = req.params.id;
 
         UserModel.findByIdAndRemove(id, function (err, user) {
@@ -423,6 +431,77 @@ module.exports = {
             }
 
             return res.status(204).json();
+        });
+    },
+
+    /*
+        DELETE LOG
+    */
+
+    removeLog: function (req, res) {
+        var id = req.params.id;
+        var log_id = req.params.log_id;
+
+        UserModel.findOne({_id: id}, function (err, user) {
+            if (err) {
+                return res.status(500).json({
+                    message: 'Error when deleting the log.',
+                    error: err
+                });
+            }
+
+            var newLogs = user.logs.filter((value) => {
+                return value._id.toString() != log_id;
+            });
+
+            user.logs = newLogs;
+
+            user.save(function (err, user) {
+                if (err) {
+                    return res.status(500).json({
+                        message: 'Error when updating user.',
+                        error: err
+                    });
+                }
+
+                return res.json(user);
+            });
+        });
+    },
+
+    /*
+        DELETE NOTIFICATION
+
+    */
+
+    removeNotification: function (req, res) {
+        var id = req.params.id;
+        var notification_id = req.params.notification_id;
+
+        UserModel.findOne({_id: id}, function (err, user) {
+            if (err) {
+                return res.status(500).json({
+                    message: 'Error when deleting the log.',
+                    error: err
+                });
+            }
+
+            var newNotifications = user.notifications.filter((value) => {
+                return value._id.toString() != notification_id;
+            });
+
+            user.notifications = newNotifications;
+
+            user.save(function (err, user) {
+                if (err) {
+                    return res.status(500).json({
+                        message: 'Error when updating user.',
+                        error: err
+                    });
+                }
+
+                return res.json(user);
+            });
         });
     }
 };

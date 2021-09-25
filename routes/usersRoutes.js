@@ -26,6 +26,8 @@ router.put('/:id/notification/:notification_id', userController.updateNotificati
 /*
  * DELETE
  */
-router.delete('/:id', userController.remove);
+router.delete('/user/:id', userController.removeUser);
+router.delete('/:id/log/:log_id', userController.removeLog);
+router.delete('/:id/notification/:notification_id', userController.removeNotification);
 
 module.exports = router;
