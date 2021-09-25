@@ -12,4 +12,19 @@ router.get('/', plantController.list);
  */
 router.get('/:id', plantController.show);
 
+/*
+ * POST
+ */
+router.post('/', plantController.create);
+
+/*
+ * PUT
+ */
+router.put('/:id', plantController.update);
+
+/*
+ * DELETE
+ */
+router.delete('/:id', plantController.remove);
+
 module.exports = router;

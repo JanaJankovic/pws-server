@@ -3,24 +3,25 @@ var router = express.Router();
 var userController = require('../controllers/userController.js');
 
 /*
- * GET
+ * GET - user, just logs or notifications in case request is made from esp8266
  */
-router.get('/', userController.list);
+router.get('/user/:id', userController.showUser);
+router.get('/logs/:id', userController.showLogs);
+router.get('/notifications/:id', userController.showNotifications);
 
 /*
- * GET
+ * POST - creating new user, log, notification
  */
-router.get('/:id', userController.show);
+router.post('/user', userController.createUser);
+router.post('/:id/log', userController.createLog);
+router.post('/:id/notification', userController.createNotification);
 
 /*
- * POST
+ * PUT - user for updating only email, password, ip; log for pin; notification for read
  */
-router.post('/', userController.create);
-
-/*
- * PUT
- */
-router.put('/:id', userController.update);
+router.put('/user/:id', userController.updateUser);
+router.put('/:id/log/:log_id', userController.updateLog);
+router.put('/:id/notification/:notification_id', userController.updateNotification);
 
 /*
  * DELETE
