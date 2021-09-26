@@ -2,32 +2,45 @@ var express = require('express');
 var router = express.Router();
 var userController = require('../controllers/userController.js');
 
+function requiresLogin(req, res, next) {
+    console.log("auth!");
+      if (req.session && req.session.patientId) {
+        return next();
+    } else {
+        var err = new Error('You must be logged in for this servise.');
+        err.status = 401;
+        return next(err);
+    }
+}
+
 /*
  * GET - user, just recipients or notifications in case request is made from esp8266
  */
-router.get('/user/:id', userController.showUser);
-router.get('/recipients/:id', userController.showRecipients);
-router.get('/notifications/:id', userController.showNotifications);
+router.get('/user/:id', requiresLogin, userController.showUser);
+router.get('/recipients/:id', requiresLogin, userController.showRecipients);
+router.get('/notifications/:id', requiresLogin, userController.showNotifications);
 
 /*
  * POST - creating new user, recipient, notification
  */
-router.post('/user', userController.createUser);
-router.post('/:id/recipient', userController.createRecipient);
-router.post('/:id/notification', userController.createNotification);
+router.post('/login', userController.loginUser);
+router.post('/logout', userController.logoutUser);
+router.post('/register', userController.createUser);
+router.post('/:id/recipient', requiresLogin, userController.createRecipient);
+router.post('/:id/notification', requiresLogin, userController.createNotification);
 
 /*
  * PUT - user for updating only email, password, ip; recipient for pin; notification for read
  */
-router.put('/user/:id', userController.updateUser);
-router.put('/:id/recipient/:recipient_id', userController.updateRecipient);
-router.put('/:id/notification/:notification_id', userController.updateNotification);
+router.put('/update_user/:id', requiresLogin, userController.updateUser);
+router.put('/:id/update_recipient/:recipient_id', requiresLogin, userController.updateRecipient);
+router.put('/:id/update_notification/:notification_id', requiresLogin, userController.updateNotification);
 
 /*
  * DELETE
  */
-router.delete('/user/:id', userController.removeUser);
-router.delete('/:id/recipient/:recipient_id', userController.removeRecipient);
-router.delete('/:id/notification/:notification_id', userController.removeNotification);
+router.delete('/remove_user/:id', requiresLogin, userController.removeUser);
+router.delete('/:id/remove_recipient/:recipient_id', requiresLogin, userController.removeRecipient);
+router.delete('/:id/remove_notification/:notification_id', requiresLogin, userController.removeNotification);
 
 module.exports = router;

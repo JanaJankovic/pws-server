@@ -76,6 +76,48 @@ module.exports = {
     },
 
     /**
+        LOGIN USER
+     
+        body :
+        { 
+            "email" : String,
+            "password" : String
+        }
+    */
+
+    loginUser: function (req, res,next) {
+        UserModel.authenticate(req.body.email, req.body.password, function (error, user) {
+            if (error || !user) {
+                var err = new Error('Wrong email or password.');
+                err.status = 401;
+                return next(err);
+            } else {
+                req.session.userId = user._id;
+                return res.status(201).json(user);
+            }
+        })
+    },
+
+
+    /*
+        LOGOUT USER
+     
+    */
+
+    logoutUser: function (req, res,next) {
+        if (req.session) {
+            // delete session object
+            req.session.destroy(function (err) {
+                if (err) {
+                    return next(err);
+                } else {
+                    return res.status(201);
+                }
+            });
+        }
+    },
+
+    /**
         CREATE USER
      
         body :
