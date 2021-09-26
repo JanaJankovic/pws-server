@@ -88,9 +88,9 @@ module.exports = {
     loginUser: function (req, res,next) {
         UserModel.authenticate(req.body.email, req.body.password, function (error, user) {
             if (error || !user) {
-                var err = new Error('Wrong email or password.');
-                err.status = 401;
-                return next(err);
+                var error = new Error('Wrong email or password.');
+                error.status = 401;
+                return next(error);
             } else {
                 req.session.userId = user._id;
                 return res.status(201).json(user);
