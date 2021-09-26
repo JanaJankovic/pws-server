@@ -30,7 +30,7 @@ var userSchema = new Schema({
 });
 
 userSchema.statics.authenticate = function (email, password, callback) {
-	User.findOne({ email: email }).exec(function (err, user) {
+	this.findOne({ email: email }).exec(function (err, user) {
 		if (err) {
 			return callback(err)
 		} else if (!user) {
