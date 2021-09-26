@@ -9,14 +9,14 @@ var notificationSchema = new Schema({
 	'read' : Boolean
 });
 
-var logSchema = new Schema({
+var recipientSchema = new Schema({
 	'plant_id' : {
 	 	type: Schema.Types.ObjectId,
 	 	ref: 'plant'
 	},
+	'mac_address' : String,
 	'pin' : Number,
-	'history' : [String], 
-	'mac_address' : String
+	'watering_log' : [String], 
 	
 });
 
@@ -25,7 +25,7 @@ var userSchema = new Schema({
 	'password' : String,
 	'ip' : String,
 	'notifications' : [notificationSchema],
-	'logs' : [logSchema]
+	'recipients' : [recipientSchema]
 });
 
 module.exports = mongoose.model('user', userSchema);

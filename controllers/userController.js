@@ -33,7 +33,7 @@ module.exports = {
         });
     },
 
-    showLogs: function (req, res) {
+    showRecipients: function (req, res) {
         var id = req.params.id;
 
         UserModel.findOne({_id: id}, function (err, user) {
@@ -50,7 +50,7 @@ module.exports = {
                 });
             }
 
-            return res.json(user.logs);
+            return res.json(user.recipients);
         });
     },
 
@@ -86,12 +86,11 @@ module.exports = {
         }
     */
     createUser: function (req, res) {
-        console.log(req.body);
         var user = new UserModel({
 			email : req.body.email,
 			password : req.body.password,
             ip : req.body.ip,
-            log: [], 
+            recipients: [], 
             notifications: []
         });
 
@@ -108,7 +107,7 @@ module.exports = {
     },
 
     /* 
-    CREATE LOG BODY
+    CREATE RECIPIENT BODY
 
     body :
     { 
@@ -116,9 +115,9 @@ module.exports = {
         "pin" : Number,
         "mac_address" : String
     }
-    
+     
     */
-    createLog: function (req, res) {
+    createRecipient: function (req, res) {
         var id = req.params.id;
 
         UserModel.findOne({_id: id}, function (err, user) {
@@ -145,10 +144,10 @@ module.exports = {
                 
             }
                                 
-            for(var i in user.logs){
-                if(user.logs[i].pin == req.body.pin && user.logs[i].mac_address == req.body.mac_address){
+            for(var i in user.recipients){
+                if(user.recipients[i].pin == req.body.pin && user.recipients[i].mac_address == req.body.mac_address){
                     return res.status(500).json({
-                        message: 'Log already exists'
+                        message: 'Recipient already exists'
                     });
                 }
             }
@@ -166,15 +165,15 @@ module.exports = {
                     });
                 }
 
-                var newLog = {
+                var recipient = {
                     pin : req.body.pin,
                     mac_address : req.body.mac_address,
-                    history : [], 
+                    watering_log : [], 
                     plant_id: ObjectId(plant._id)
                     
                 }
 
-                user.logs.push(newLog);
+                user.recipients.push(recipient);
                 
                 user.save(function (err, user) {
                     if (err) {
@@ -302,7 +301,7 @@ module.exports = {
     },
 
     /* 
-    UPDATE LOG BODY
+    UPDATE RECIPIENT BODY
 
     body :
     { 
@@ -314,9 +313,9 @@ module.exports = {
     
     */
 
-    updateLog: function (req, res) {
+    updateRecipient: function (req, res) {
         var id = req.params.id;
-        var log_id = req.params.log_id;
+        var recipient_id = req.params.recipient_id;
 
         UserModel.findOne({_id: id}, function (err, user) {
             if (err) {
@@ -332,10 +331,10 @@ module.exports = {
                 });
             }
 
-            for(var i in user.logs){
-                if(user.logs[i]._id == log_id){
-                    user.logs[i].pin = req.body.pin ? req.body.pin : user.logs[i].pin;
-                    user.logs[i].mac_address = req.body.mac_address ? req.body.mac_address : user.logs[i].mac_address;
+            for(var i in user.recipients){
+                if(user.recipients[i]._id == recipient_id){
+                    user.recipients[i].pin = req.body.pin ? req.body.pin : user.recipients[i].pin;
+                    user.recipients[i].mac_address = req.body.mac_address ? req.body.mac_address : user.recipients[i].mac_address;
                     
                     if(typeof req.body.latin_name != 'undefined' && req.body.latin_name){
                         PlantModel.findOne({ latin_name: req.body.latin_name }, function (err, plant) {
@@ -351,13 +350,13 @@ module.exports = {
                                 });
                             }
 
-                            user.logs[i].plant_id = ObjectId(plant._id);
+                            user.recipients[i].plant_id = ObjectId(plant._id);
             
                         });
                     }
 
                     if(typeof req.body.date_time != 'undefined' && req.body.date_time){
-                        user.logs[i].history.push(req.body.date_time);
+                        user.recipients[i].watering_log.push(req.body.date_time);
                     }
                 }
 
@@ -435,26 +434,26 @@ module.exports = {
     },
 
     /*
-        DELETE LOG
+        DELETE RECIPIENT
     */
 
-    removeLog: function (req, res) {
+    removeRecipient: function (req, res) {
         var id = req.params.id;
-        var log_id = req.params.log_id;
+        var recipient_id = req.params.recipient_id;
 
         UserModel.findOne({_id: id}, function (err, user) {
             if (err) {
                 return res.status(500).json({
-                    message: 'Error when deleting the log.',
+                    message: 'Error when deleting the recipient.',
                     error: err
                 });
             }
 
-            var newLogs = user.logs.filter((value) => {
-                return value._id.toString() != log_id;
+            var recipients = user.recipients.filter((value) => {
+                return value._id.toString() != recipient_id;
             });
 
-            user.logs = newLogs;
+            user.recipients = recipients;
 
             user.save(function (err, user) {
                 if (err) {
@@ -481,7 +480,7 @@ module.exports = {
         UserModel.findOne({_id: id}, function (err, user) {
             if (err) {
                 return res.status(500).json({
-                    message: 'Error when deleting the log.',
+                    message: 'Error when deleting the notification.',
                     error: err
                 });
             }
