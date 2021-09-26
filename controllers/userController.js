@@ -111,7 +111,7 @@ module.exports = {
                 if (err) {
                     return next(err);
                 } else {
-                    return res.status(201);
+                    return res.status(201).json({message : "Logged out"});
                 }
             });
         }
