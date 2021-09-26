@@ -5,7 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var mongoose = require('mongoose');
-const mongoDB = "mongodb+srv://pw-admin:Vh5q6w0I6jYL6lqg@pws-euwest.v4tmc.mongodb.net/pws-db?retryWrites=true&w=majority";
+const mongoDB = process.env.MONGODB_URI;
 mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
