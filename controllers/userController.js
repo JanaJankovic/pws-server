@@ -153,9 +153,11 @@ module.exports = {
 
     body :
     { 
-        "latin_name" : String,
         "pin" : Number,
-        "mac_address" : String
+        "mac_address" : String,
+        "plant" : {
+            "_id":String
+        }
     }
      
     */
@@ -194,7 +196,7 @@ module.exports = {
                 }
             }
 
-            PlantModel.findOne({ latin_name: req.body.latin_name }, function (err, plant) {
+            PlantModel.findOne({ _id: req.body.plant._id }, function (err, plant) {
                 if (err) {
                     return res.status(500).json({
                         message: 'Error when getting plant.',
@@ -378,8 +380,8 @@ module.exports = {
                     user.recipients[i].pin = req.body.pin ? req.body.pin : user.recipients[i].pin;
                     user.recipients[i].mac_address = req.body.mac_address ? req.body.mac_address : user.recipients[i].mac_address;
                     
-                    if(typeof req.body.latin_name != 'undefined' && req.body.latin_name){
-                        PlantModel.findOne({ latin_name: req.body.latin_name }, function (err, plant) {
+                    if(typeof req.body.plant._id != 'undefined' && req.body.plant._id){
+                        PlantModel.findOne({ _id: req.body.plant._id }, function (err, plant) {
                             if (err) {
                                 return res.status(500).json({
                                     message: 'Error when getting plant.',

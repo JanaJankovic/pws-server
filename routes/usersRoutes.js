@@ -4,7 +4,7 @@ var userController = require('../controllers/userController.js');
 
 function requiresLogin(req, res, next) {
     console.log("auth!");
-      if (req.session && req.session.patientId) {
+      if (req.session && req.session.userId) {
         return next();
     } else {
         var err = new Error('You must be logged in for this servise.');

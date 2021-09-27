@@ -32,17 +32,23 @@ var userSchema = new Schema({
 userSchema.statics.authenticate = function (email, password, callback) {
 	this.findOne({ email: email }).exec(function (err, user) {
 		if (err) {
-			return callback(err)
+			console.log("Error");
+			return callback(err);
 		} else if (!user) {
+			console.log('User not found.');
 			var err = new Error('User not found.');
 			err.status = 401;
 			return callback(err);
 		}
+		console.log(user);
 		bcrypt.compare(password, user.password, function (err, result) {
+			console.log(result);
 			if (result === true) {
-			return callback(null, user);
+				console.log("Passwords match");
+				return callback(null, user);
 			} else {
-			return callback();
+				console.log("Passwords dont match");
+				return callback();
 			}
 		})
 	});
