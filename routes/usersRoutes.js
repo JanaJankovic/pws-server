@@ -16,9 +16,9 @@ function requiresLogin(req, res, next) {
 /*
  * GET - user, just recipients or notifications in case request is made from esp8266
  */
-router.get('/user/:id', requiresLogin, userController.showUser);
-router.get('/recipients/:id', requiresLogin, userController.showRecipients);
-router.get('/notifications/:id', requiresLogin, userController.showNotifications);
+router.get('/user/:id',  userController.showUser);
+router.get('/recipients/:id',  userController.showRecipients);
+router.get('/notifications/:id', userController.showNotifications);
 
 /*
  * POST - creating new user, recipient, notification
@@ -32,15 +32,15 @@ router.post('/:id/notification', requiresLogin, userController.createNotificatio
 /*
  * PUT - user for updating only email, password, ip; recipient for pin; notification for read
  */
-router.put('/update_user/:id', requiresLogin, userController.updateUser);
-router.put('/:id/update_recipient/:recipient_id', requiresLogin, userController.updateRecipient);
-router.put('/:id/update_notification/:notification_id', requiresLogin, userController.updateNotification);
+router.put('/update_user/:id', userController.updateUser);
+router.put('/:id/update_recipient/:recipient_id',  userController.updateRecipient);
+router.put('/:id/update_notification/:notification_id',  userController.updateNotification);
 
 /*
  * DELETE
  */
-router.delete('/remove_user/:id', requiresLogin, userController.removeUser);
-router.delete('/:id/remove_recipient/:recipient_id', requiresLogin, userController.removeRecipient);
-router.delete('/:id/remove_notification/:notification_id', requiresLogin, userController.removeNotification);
+router.delete('/remove_user/:id', userController.removeUser);
+router.delete('/:id/remove_recipient/:recipient_id', userController.removeRecipient);
+router.delete('/:id/remove_notification/:notification_id', userController.removeNotification);
 
 module.exports = router;
