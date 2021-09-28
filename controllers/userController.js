@@ -313,6 +313,7 @@ module.exports = {
     updateUser: function (req, res) {
         var id = req.params.id;
 
+        console.log(req.body);
         UserModel.findOne({_id: id}, function (err, user) {
             if (err) {
                 return res.status(500).json({
