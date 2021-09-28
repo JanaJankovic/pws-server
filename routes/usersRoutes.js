@@ -26,8 +26,8 @@ router.get('/notifications/:id', userController.showNotifications);
 router.post('/login', userController.loginUser);
 router.post('/logout', userController.logoutUser);
 router.post('/register', userController.createUser);
-router.post('/:id/recipient', requiresLogin, userController.createRecipient);
-router.post('/:id/notification', requiresLogin, userController.createNotification);
+router.post('/:id/recipient', userController.createRecipient);
+router.post('/:id/notification', userController.createNotification);
 
 /*
  * PUT - user for updating only email, password, ip; recipient for pin; notification for read
