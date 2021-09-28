@@ -327,9 +327,9 @@ module.exports = {
                 });
             }
 
-            user.email = req.body.email ? req.body.email : user.email;
-			user.password = req.body.password ? req.body.password : user.password;
-            user.ip = req.body.ip ? req.body.ip : user.ip;
+            user.email = req.body.email && req.body.email!= "" ? req.body.email : user.email;
+			user.password = req.body.password && req.body.password!= "" ? req.body.password : user.password;
+            user.ip = req.body.ip && req.body.ip!="" ? req.body.ip : user.ip;
 			
             user.save(function (err, user) {
                 if (err) {
