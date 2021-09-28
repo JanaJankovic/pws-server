@@ -332,8 +332,7 @@ module.exports = {
             user.email = req.body.email &&  req.body.email !== 'undefined' ? req.body.email : user.email;
             user.ip = req.body.ip && req.body.ip !== 'undefined' ? req.body.ip : user.ip;
             
-            if(req.body.password != null){
-                console.log('Changing passwd');
+            if(req.body.password && req.body.password !== 'undefined'){
                 user.password = req.body.password;
             }
 			
