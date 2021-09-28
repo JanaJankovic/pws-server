@@ -313,7 +313,6 @@ module.exports = {
     updateUser: function (req, res) {
         var id = req.params.id;
 
-        console.log(req.body);
         UserModel.findOne({_id: id}, function (err, user) {
             if (err) {
                 return res.status(500).json({
@@ -327,6 +326,8 @@ module.exports = {
                     message: 'No such user'
                 });
             }
+
+            console.log(req.body.password);
 
             user.email = req.body.email && req.body.email!= "" ? req.body.email : user.email;
 			user.password = req.body.password && req.body.password!= "" ? req.body.password : user.password;
