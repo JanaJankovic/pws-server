@@ -78,34 +78,6 @@ module.exports = {
         });
     },
 
-    createCustomized: function (req, res) {
-        var plant = new PlantModel({
-			common_name : req.body.common_name,
-			latin_name : req.body.latin_name,
-			light : req.body.light,
-			humidity : req.body.humidity,
-			temperature : req.body.temperature,
-			moisture : req.body.moisture,
-			frequency : req.body.frequency,
-			moisture_modifier : req.body.moisture_modifier,
-            frequency_modifier : req.body.frequency_modifier,
-            growth_month : req.body.growth_month,
-            hibernation_month : req.body.hibernation_month,
-            customized : true
-        });
-
-        plant.save(function (err, plant) {
-            if (err) {
-                return res.status(500).json({
-                    message: 'Error when creating plant',
-                    error: err
-                });
-            }
-
-            return res.status(201).json(plant);
-        });
-    },
-
     /**
      * plantController.update()
      */
