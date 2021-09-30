@@ -102,6 +102,7 @@ module.exports = {
 			plant.frequency = req.body.frequency ? req.body.frequency : plant.frequency;
 			plant.moisture_modifier = req.body.moisture_modifier ? req.body.moisture_modifier : plant.moisture_modifier;
             plant.frequency_modifier = req.body.frequency_modifier ? req.body.frequency_modifier : plant.frequency_modifier;
+            plant.customized = true;
 			
             plant.save(function (err, plant) {
                 if (err) {
