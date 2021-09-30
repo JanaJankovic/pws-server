@@ -59,7 +59,39 @@ module.exports = {
 			temperature : req.body.temperature,
 			moisture : req.body.moisture,
 			frequency : req.body.frequency,
-			modifier : req.body.modifier
+			moisture_modifier : req.body.moisture_modifier,
+            frequency_modifier : req.body.frequency_modifier,
+            growth_month : req.body.growth_month,
+            hibernation_month : req.body.hibernation_month,
+            customized : false
+        });
+
+        plant.save(function (err, plant) {
+            if (err) {
+                return res.status(500).json({
+                    message: 'Error when creating plant',
+                    error: err
+                });
+            }
+
+            return res.status(201).json(plant);
+        });
+    },
+
+    createCustomized: function (req, res) {
+        var plant = new PlantModel({
+			common_name : req.body.common_name,
+			latin_name : req.body.latin_name,
+			light : req.body.light,
+			humidity : req.body.humidity,
+			temperature : req.body.temperature,
+			moisture : req.body.moisture,
+			frequency : req.body.frequency,
+			moisture_modifier : req.body.moisture_modifier,
+            frequency_modifier : req.body.frequency_modifier,
+            growth_month : req.body.growth_month,
+            hibernation_month : req.body.hibernation_month,
+            customized : true
         });
 
         plant.save(function (err, plant) {
@@ -94,14 +126,10 @@ module.exports = {
                 });
             }
 
-            plant.common_name = req.body.common_name ? req.body.common_name : plant.common_name;
-			plant.latin_name = req.body.latin_name ? req.body.latin_name : plant.latin_name;
-			plant.light = req.body.light ? req.body.light : plant.light;
-			plant.humidity = req.body.humidity ? req.body.humidity : plant.humidity;
-			plant.temperature = req.body.temperature ? req.body.temperature : plant.temperature;
 			plant.moisture = req.body.moisture ? req.body.moisture : plant.moisture;
 			plant.frequency = req.body.frequency ? req.body.frequency : plant.frequency;
-			plant.modifier = req.body.modifier ? req.body.modifier : plant.modifier;
+			plant.moisture_modifier = req.body.moisture_modifier ? req.body.moisture_modifier : plant.moisture_modifier;
+            plant.frequency_modifier = req.body.frequency_modifier ? req.body.frequency_modifier : plant.frequency_modifier;
 			
             plant.save(function (err, plant) {
                 if (err) {

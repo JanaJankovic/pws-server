@@ -15,6 +15,7 @@ router.get('/:id', plantController.show);
 /*
  * POST
  */
+router.post('/customized', plantController.createCustomzied);
 router.post('/', plantController.create);
 
 /*

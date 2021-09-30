@@ -12,7 +12,8 @@ var plantSchema = new Schema({
 	'moisture_modifier' : Number,
 	'frequency_modifier' : Number,
 	'growth_month' : Number,
-	'hibernation_month' : Number
+	'hibernation_month' : Number,
+	'customized' : Boolean
 });
 
 module.exports = mongoose.model('plant', plantSchema);
