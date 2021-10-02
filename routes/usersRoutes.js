@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var userController = require('../controllers/userController.js');
+var userUtil = require('../controllers/userUtil.js');
 
 function requiresLogin(req, res, next) {
     console.log("auth!");
@@ -16,9 +17,7 @@ function requiresLogin(req, res, next) {
 /*
  * GET - user, just recipients or notifications in case request is made from esp8266
  */
-router.get('/user/:id',  userController.showUser);
-router.get('/recipients/:id',  userController.showRecipients);
-router.get('/notifications/:id', userController.showNotifications);
+router.get('/user/:user_id',  userController.showUser, userUtil.aggregateUser);
 
 /*
  * POST - creating new user, recipient, notification
@@ -26,21 +25,18 @@ router.get('/notifications/:id', userController.showNotifications);
 router.post('/login', userController.loginUser);
 router.post('/logout', userController.logoutUser);
 router.post('/register', userController.createUser);
-router.post('/:id/recipient', userController.createRecipient);
-router.post('/:id/notification', userController.createNotification);
+router.post('/notification/:user_id', userController.createNotification, userUtil.aggregateUser);
 
 /*
  * PUT - user for updating only email, password, ip; recipient for pin; notification for read
  */
-router.put('/update_user/:id', userController.updateUser);
-router.put('/:id/update_recipient/:recipient_id',  userController.updateRecipient);
-router.put('/:id/update_notification/:notification_id',  userController.updateNotification);
+router.put('/update_user/:user_id', userController.updateUser, userUtil.aggregateUser);
+router.put('/update_notification/:user_id/:notification_id',  userController.updateNotification, userUtil.aggregateUser);
 
 /*
  * DELETE
  */
-router.delete('/remove_user/:id', userController.removeUser);
-router.delete('/:id/remove_recipient/:recipient_id', userController.removeRecipient);
-router.delete('/:id/remove_notification/:notification_id', userController.removeNotification);
+router.delete('/remove_user/:user_id', userController.removeUser);
+router.delete('/remove_notification/:user_id/:notification_id', userController.removeNotification, userUtil.aggregateUser);
 
 module.exports = router;

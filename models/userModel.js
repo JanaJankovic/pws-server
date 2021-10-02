@@ -10,23 +10,11 @@ var notificationSchema = new Schema({
 	'read' : Boolean
 });
 
-var recipientSchema = new Schema({
-	'plant_id' : {
-	 	type: Schema.Types.ObjectId,
-	 	ref: 'plant'
-	},
-	'mac_address' : String,
-	'pin' : Number,
-	'watering_log' : [String], 
-	
-});
-
 var userSchema = new Schema({
 	'email' : String,
 	'password' : String,
 	'ip' : String,
-	'notifications' : [notificationSchema],
-	'recipients' : [recipientSchema]
+	'notifications' : [notificationSchema]
 });
 
 userSchema.statics.authenticate = function (email, password, callback) {

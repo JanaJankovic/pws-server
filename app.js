@@ -5,8 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var mongoose = require('mongoose');
-//var mongoDB = 'mongodb://127.0.0.1/pws-db';
-const mongoDB = process.env.MONGODB_URI;
+var mongoDB = 'mongodb://127.0.0.1/pws-db';
+//const mongoDB = process.env.MONGODB_URI;
 mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
@@ -15,6 +15,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error'));
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/usersRoutes');
 var plantsRouter = require('./routes/plantRoutes');
+var recipientsRouter = require('./routes/recipientRoutes');
 
 var app = express();
 
@@ -39,6 +40,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/plants', plantsRouter);
+app.use('/recipients', recipientsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
