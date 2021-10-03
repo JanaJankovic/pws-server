@@ -18,8 +18,7 @@ module.exports = {
         
         if ( typeof req.body.relay_pin == 'undefined' && !req.body.relay_pin &&
         typeof req.body.byte_address == 'undefined' && !req.body.byte_address &&
-        typeof req.body.plant.plant_id == 'undefined' && !req.body.plant.plant_id &&
-        typeof req.body.user_id == 'undefined' && !req.body.user_id){
+        typeof req.body.plant._id == 'undefined' && !req.body.plant._id){
 
             var err = new Error('Wrong body');
             err.status = 401;
@@ -27,7 +26,7 @@ module.exports = {
            
        }
 
-        var id = req.body.user_id;
+        var id = req.params.user_id;
 
         UserModel.findOne({_id: id}, function (err, user) {
             if (err) {
@@ -42,7 +41,7 @@ module.exports = {
                 return next(err);
             }
 
-            PlantModel.findOne({ _id: req.body.plant_id }, function (err, plant) {
+            PlantModel.findOne({ _id: req.body.plant._id }, function (err, plant) {
                 if (err) {
                     err.message = 'Error when getting the plant';
                     err.status = 500;
@@ -120,7 +119,7 @@ module.exports = {
                 return next(err);
             }
 
-			recipient.plant_id = req.body.plant_id ? req.body.plant_id : recipient.plant_id;
+			recipient.plant_id = req.body.plant._id ? req.body.plant._id : recipient.plant_id;
 			recipient.byte_address = req.body.byte_address ? req.body.byte_address : recipient.byte_address;
 			recipient.relay_pin = req.body.relay_pin ? req.body.relay_pin : recipient.relay_pin;
             recipient.water_log = req.body.water_log ? req.body.water_log : recipient.water_log;
