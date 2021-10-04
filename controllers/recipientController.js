@@ -123,6 +123,9 @@ module.exports = {
 			recipient.byte_address = req.body.byte_address ? req.body.byte_address : recipient.byte_address;
 			recipient.relay_pin = req.body.relay_pin ? req.body.relay_pin : recipient.relay_pin;
             recipient.water_log = req.body.water_log ? req.body.water_log : recipient.water_log;
+            if(req.body.date_time){
+                recipient.water_log.push(date_time);
+            }
 
             RecipientModel.findOne(
             {
