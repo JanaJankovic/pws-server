@@ -17,6 +17,7 @@ module.exports = {
     create: function (req, res, next) {
         
         if ( typeof req.body.relay_pin == 'undefined' && !req.body.relay_pin &&
+        typeof req.body.moisture_pin == 'undefined' && !req.body.moisture_pin &&
         typeof req.body.byte_address == 'undefined' && !req.body.byte_address &&
         typeof req.body.plant._id == 'undefined' && !req.body.plant._id){
 
@@ -58,7 +59,8 @@ module.exports = {
                     {
                         user_id: user._id, 
                         plant_id:plant._id, 
-                        relay_pin:req.body.relay_pin, 
+                        relay_pin:req.body.relay_pin,
+                        moisture_pin: req.body.moisture_pin,  
                         byte_address: req.body.byte_address
 
                     }, function (err, recipient) {
@@ -72,7 +74,8 @@ module.exports = {
                         var rec = new RecipientModel({
                             plant_id: ObjectId(plant._id),
                             user_id: ObjectId(user._id),
-                            relay_pin: req.body.relay_pin, 
+                            relay_pin: req.body.relay_pin,
+                            moisture_pin: req.body.moisture_pin,  
                             byte_address: req.body.byte_address,
                             water_log : []  
                         });
@@ -122,6 +125,7 @@ module.exports = {
 			recipient.plant_id = req.body.plant._id ? req.body.plant._id : recipient.plant_id;
 			recipient.byte_address = req.body.byte_address ? req.body.byte_address : recipient.byte_address;
 			recipient.relay_pin = req.body.relay_pin ? req.body.relay_pin : recipient.relay_pin;
+            recipient.moisture_pin = req.body.moisture_pin ? req.body.moisture_pin : recipient.moisture_pin;
             recipient.water_log = req.body.water_log ? req.body.water_log : recipient.water_log;
             if(req.body.date_time){
                 recipient.water_log.push(date_time);
@@ -130,7 +134,8 @@ module.exports = {
             RecipientModel.findOne(
             {
                 plant_id: recipient.plant_id,
-                relay_pin: recipient.relay_pin, 
+                relay_pin: recipient.relay_pin,
+                moisture_pin: recipient.moisture_pin,  
                 byte_address: recipient.byte_address,
                 user_id: ObjectId(req.params.user_id)
             }, function (err, r){

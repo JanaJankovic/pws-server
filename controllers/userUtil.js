@@ -26,6 +26,7 @@ module.exports = {
                     _id: 1,
                     byte_address: 1,
                     relay_pin: 1,
+                    moisture_pin: 1,
                     water_log: 1,
                     plant: {
                         _id: "$plant._id",
