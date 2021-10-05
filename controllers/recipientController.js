@@ -122,7 +122,7 @@ module.exports = {
                 return next(err);
             }
 
-			recipient.plant_id = req.body.plant._id ? req.body.plant._id : recipient.plant_id;
+			recipient.plant_id = typeof req.body.plant != 'undefined' && req.body.plant._id ? req.body.plant._id : recipient.plant_id;
 			recipient.byte_address = req.body.byte_address ? req.body.byte_address : recipient.byte_address;
 			recipient.relay_pin = req.body.relay_pin ? req.body.relay_pin : recipient.relay_pin;
             recipient.moisture_pin = req.body.moisture_pin ? req.body.moisture_pin : recipient.moisture_pin;
