@@ -128,7 +128,7 @@ module.exports = {
             recipient.moisture_pin = req.body.moisture_pin ? req.body.moisture_pin : recipient.moisture_pin;
             recipient.water_log = req.body.water_log ? req.body.water_log : recipient.water_log;
             if(req.body.date_time){
-                recipient.water_log.push(date_time);
+                recipient.water_log.push(req.body.date_time);
             }
 
             RecipientModel.findOne(
