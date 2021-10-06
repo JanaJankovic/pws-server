@@ -16,6 +16,8 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/usersRoutes');
 var plantsRouter = require('./routes/plantRoutes');
 var recipientsRouter = require('./routes/recipientRoutes');
+var requestsRouter = require('./routes/arduinoRequestRoutes');
+var reponsesRouter = require('./routes/arduinoResponseRoutes');
 
 var app = express();
 
@@ -41,6 +43,8 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/plants', plantsRouter);
 app.use('/recipients', recipientsRouter);
+app.use('/requests', requestsRouter);
+app.use('/responses', reponsesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
