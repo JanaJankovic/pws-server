@@ -147,9 +147,10 @@ module.exports = {
                     return next(err);
                 }
 
-                if(r && r._id != recipient._id)
+                if(r && r._id != recipient._id){
                     r.water_log = recipient.water_log;
-                else 
+                    r.base64_picture = recipient.base64_picture;
+                } else if(!r)
                     r = recipient;
                 
                 console.log(r);
