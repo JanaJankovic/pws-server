@@ -74,7 +74,6 @@ module.exports = {
                         var rec = new RecipientModel({
                             plant_id: ObjectId(plant._id),
                             user_id: ObjectId(user._id),
-                            base64_picture: "",
                             relay_pin: req.body.relay_pin,
                             moisture_pin: req.body.moisture_pin,  
                             byte_address: req.body.byte_address,
@@ -110,7 +109,6 @@ module.exports = {
     update: function (req, res, next) {
         var id = req.params.id;
 
-        console.log(req.body);
         RecipientModel.findOne({_id: id}, function (err, recipient) {
             if (err) {
                 err.message = 'Error when getting the recipient';
@@ -125,7 +123,7 @@ module.exports = {
             }
 
 			recipient.plant_id = typeof req.body.plant != 'undefined' && req.body.plant._id ? req.body.plant._id : recipient.plant_id;
-            recipient.base64_picture = req.part.base64_picture ? req.part.base64_picture : recipient.base64_picture;
+            recipient.base64_picture = req.body.base64_picture ? req.body.base64_picture : recipient.base64_picture;
 			recipient.byte_address = req.body.byte_address ? req.body.byte_address : recipient.byte_address;
 			recipient.relay_pin = req.body.relay_pin ? req.body.relay_pin : recipient.relay_pin;
             recipient.moisture_pin = req.body.moisture_pin ? req.body.moisture_pin : recipient.moisture_pin;
@@ -148,10 +146,9 @@ module.exports = {
                     return next(err);
                 }
 
-                if(r && r._id != recipient._id){
+                if(r && r._id != recipient._id)
                     r.water_log = recipient.water_log;
-                    r.base64_picture = recipient.base64_picture;
-                } else if(!r)
+                else 
                     r = recipient;
                 
                 r.save(function (err) {
