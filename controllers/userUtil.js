@@ -24,6 +24,7 @@ module.exports = {
             {
                 $project : {
                     _id: 1,
+                    path: 1,
                     byte_address: 1,
                     relay_pin: 1,
                     moisture_pin: 1,

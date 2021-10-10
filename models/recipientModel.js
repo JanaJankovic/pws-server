@@ -10,6 +10,7 @@ var recipientSchema = new Schema({
 		type: Schema.Types.ObjectId,
 		ref: 'user'
    },
+   	'path': String,
 	'byte_address' : String,
 	'relay_pin' : Number,
 	'moisture_pin' : Number,

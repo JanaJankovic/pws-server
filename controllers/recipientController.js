@@ -123,7 +123,7 @@ module.exports = {
             }
 
 			recipient.plant_id = typeof req.body.plant != 'undefined' && req.body.plant._id ? req.body.plant._id : recipient.plant_id;
-            recipient.base64_picture = req.body.base64_picture ? req.body.base64_picture : recipient.base64_picture;
+            recipient.path = req.body.path ? req.body.path : recipient.path;
 			recipient.byte_address = req.body.byte_address ? req.body.byte_address : recipient.byte_address;
 			recipient.relay_pin = req.body.relay_pin ? req.body.relay_pin : recipient.relay_pin;
             recipient.moisture_pin = req.body.moisture_pin ? req.body.moisture_pin : recipient.moisture_pin;
@@ -146,8 +146,10 @@ module.exports = {
                     return next(err);
                 }
 
-                if(r && r._id != recipient._id)
+                if(r && r._id != recipient._id){
                     r.water_log = recipient.water_log;
+                    r.path = recipient.path;
+                }    
                 else 
                     r = recipient;
                 
