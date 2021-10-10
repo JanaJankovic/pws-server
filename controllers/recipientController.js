@@ -152,6 +152,7 @@ module.exports = {
                 else 
                     r = recipient;
                 
+                console.log(r);
                 r.save(function (err) {
                     if (err) {
                         err.message = 'Error when updating the recipient';
