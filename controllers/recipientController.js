@@ -74,6 +74,7 @@ module.exports = {
                         var rec = new RecipientModel({
                             plant_id: ObjectId(plant._id),
                             user_id: ObjectId(user._id),
+                            base64_picture: "",
                             relay_pin: req.body.relay_pin,
                             moisture_pin: req.body.moisture_pin,  
                             byte_address: req.body.byte_address,
