@@ -110,6 +110,7 @@ module.exports = {
     update: function (req, res, next) {
         var id = req.params.id;
 
+        console.log(req.body);
         RecipientModel.findOne({_id: id}, function (err, recipient) {
             if (err) {
                 err.message = 'Error when getting the recipient';
@@ -153,7 +154,6 @@ module.exports = {
                 } else if(!r)
                     r = recipient;
                 
-                console.log(r);
                 r.save(function (err) {
                     if (err) {
                         err.message = 'Error when updating the recipient';
