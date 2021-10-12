@@ -231,20 +231,21 @@ module.exports = {
 
             
             for(var i in user.notifications){
-                console.log(user.notifications[i]);
                 if(user.notifications[i]._id.equals(ObjectId(notification_id))){
                     user.notifications[i].read = true;
-                    user.save(function (err, user) {
-                        if (err) {
-                            err.message = 'Error when updating the user';
-                            err.status = 500;
-                            return next(err);
-                        }
-        
-                        return next();
-                    });
+                    break;
                 }
             }
+
+            user.save(function (err) {
+                if (err) {
+                    err.message = 'Error when updating the user';
+                    err.status = 500;
+                    return next(err);
+                }
+
+                return next();
+            });
         });
     },
 
