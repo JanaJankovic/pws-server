@@ -229,9 +229,9 @@ module.exports = {
                 return next(err);
             }
 
+            console.log(user.notifications.length);
             for(var i in user.notifications){
-                console.log(user.notifications[i]._id);
-                if(user.notifications[i]._id = notification_id){
+                if(user.notifications[i]._id.toString() == notification_id){
                     user.notifications[i].read = true;
                     break;
                 }
