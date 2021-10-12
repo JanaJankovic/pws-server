@@ -232,8 +232,8 @@ module.exports = {
             for(var i in user.notifications){
                 if(user.notifications[i]._id = notification_id){
                     user.notifications[i].read = true;
+                    break;
                 }
-                break;
             }
 			
             user.save(function (err, user) {
