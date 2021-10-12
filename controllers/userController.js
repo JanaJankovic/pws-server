@@ -230,6 +230,7 @@ module.exports = {
             }
 
             for(var i in user.notifications){
+                console.log(user.notifications[i]._id);
                 if(user.notifications[i]._id = notification_id){
                     user.notifications[i].read = true;
                     break;
