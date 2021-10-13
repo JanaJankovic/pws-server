@@ -83,7 +83,7 @@ module.exports = {
             "password" : String
         }
     */
-    createUser: function (req, res) {
+    createUser: function (req, res, next) {
         UserModel.findOne({email : req.body.email}, function (error, user) {
             if (error) {
                 error.message = 'Error when getting the user';
