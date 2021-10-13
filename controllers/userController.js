@@ -84,21 +84,37 @@ module.exports = {
         }
     */
     createUser: function (req, res) {
-        var user = new UserModel({
-			email : req.body.email,
-			password : req.body.password,
-            notifications: []
-        });
-
-        user.save(function (err, user) {
-            if (err) {
-                return res.status(500).json({
-                    message: 'Error when creating user',
-                    error: err
-                });
+        UserModel.findOne({email : req.body.email}, function (error, user) {
+            if (error) {
+                err.message = 'Error when getting the user';
+                err.status = 500;
+                return next(err);
             }
 
-            return res.status(201).json(user);
+            if (user) {
+                err.message = 'Email already in use';
+                err.status = 400;
+                return next(err);
+            }
+
+            var user = new UserModel({
+                email : req.body.email,
+                password : req.body.password,
+                notifications: []
+            });
+    
+            user.save(function (err, user) {
+                if (err) {
+                    return res.status(500).json({
+                        message: 'Error when creating user',
+                        error: err
+                    });
+                }
+    
+                return res.status(201).json(user);
+            });
+
+            return next();
         });
     },
    
@@ -124,7 +140,7 @@ module.exports = {
             typeof req.body.date_time == 'undefined' && !req.body.date_time){
 
                 var err = new Error('Wrong body');
-                err.status = 401;
+                err.status = 400;
                 return next(err);
                
            }
@@ -191,17 +207,32 @@ module.exports = {
                 return next(err);
             }
 
-            user.email = req.body.email &&  req.body.email !== 'undefined' ? req.body.email : user.email;
-            user.password = req.body.password &&  req.body.password !== 'undefined' ? req.body.password : user.password;
-            			
-            user.save(function (err) {
+            UserModel.findOne({email: user.email}, function (err, user){
                 if (err) {
-                    err.message = 'Error when updatign the user';
+                    err.message = 'Error when getting the user';
                     err.status = 500;
                     return next(err);
                 }
-                
-                return next();
+    
+                if (user) {
+                    err.message = 'Email already in use';
+                    err.status = 400;
+                    return next(err);
+                }
+
+                user.email = req.body.email &&  req.body.email !== 'undefined' ? req.body.email : user.email;
+                user.password = req.body.password &&  req.body.password !== 'undefined' ? req.body.password : user.password;
+                            
+                user.save(function (err) {
+                    if (err) {
+                        err.message = 'Error when updating the user';
+                        err.status = 500;
+                        return next(err);
+                    }
+                    
+                    return next();
+                });
+
             });
         });
     },

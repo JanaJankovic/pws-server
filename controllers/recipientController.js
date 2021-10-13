@@ -22,7 +22,7 @@ module.exports = {
         typeof req.body.plant._id == 'undefined' && !req.body.plant._id){
 
             var err = new Error('Wrong body');
-            err.status = 401;
+            err.status = 400;
             return next(err);
            
        }
@@ -92,7 +92,7 @@ module.exports = {
 
                     } else {
                         var err = new Error('Recipient already exists');
-                        err.status = 401;
+                        err.status = 400;
                         return next(err);
                     }
 

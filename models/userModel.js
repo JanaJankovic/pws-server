@@ -11,7 +11,7 @@ var notificationSchema = new Schema({
 });
 
 var userSchema = new Schema({
-	'email' : String,
+	'email' : {type : String , unique : true, required : true, dropDups: true},
 	'password' : String,
 	'notifications' : [notificationSchema]
 });
