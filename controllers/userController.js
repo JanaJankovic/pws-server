@@ -1,5 +1,6 @@
 var UserModel = require('../models/userModel.js');
 var RecipientModel = require('../models/recipientModel.js');
+var validator = require("email-validator");
 var mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -83,38 +84,45 @@ module.exports = {
             "password" : String
         }
     */
-    createUser: function (req, res, next) {
+    createUser: function (req, res) {
         UserModel.findOne({email : req.body.email}, function (error, user) {
             if (error) {
-                error.message = 'Error when getting the user';
-                error.status = 500;
-                return next(error);
+                return res.status(500).json({
+                    message: 'Error when getting the user',
+                    error: err
+                });
             }
 
             if (user) {
-                var error = new Error('Email already in use');
-                error.status = 400;
-                return next(error);
+                return res.status(400).json({
+                    message: 'Email already in use',
+                    error: err
+                });
             }
-
-            var user = new UserModel({
-                email : req.body.email,
-                password : req.body.password,
-                notifications: []
-            });
-    
-            user.save(function (err, user) {
-                if (err) {
-                    return res.status(500).json({
-                        message: 'Error when creating user',
-                        error: err
-                    });
-                }
-    
-                return res.status(201).json(user);
-            });
-
-            return next();
+            
+            if(validator.validate(req.body.email)){
+                var user = new UserModel({
+                    email : req.body.email,
+                    password : req.body.password,
+                    notifications: []
+                });
+        
+                user.save(function (err, user) {
+                    if (err) {
+                        return res.status(500).json({
+                            message: 'Error when creating user',
+                            error: err
+                        });
+                    }
+        
+                    return res.status(201).json(user);
+                });
+            } else {
+                return res.status(400).json({
+                    message: 'Invalid email format',
+                    error: err
+                });
+            }
         });
     },
    
@@ -207,32 +215,38 @@ module.exports = {
                 return next(err);
             }
 
-            UserModel.findOne({email: user.email}, function (err, user){
-                if (err) {
-                    err.message = 'Error when getting the user';
-                    err.status = 500;
-                    return next(err);
-                }
-    
-                if (user) {
-                    var err = new Error('Email already in use');
-                    err.status = 400;
-                    return next(err);
-                }
-
-                user.email = req.body.email &&  req.body.email !== 'undefined' ? req.body.email : user.email;
-                user.password = req.body.password &&  req.body.password !== 'undefined' ? req.body.password : user.password;
-                            
-                user.save(function (err) {
+            if(req.body.email &&  req.body.email !== 'undefined'){
+                UserModel.findOne({email: req.body.email}, function (err, u){
                     if (err) {
-                        err.message = 'Error when updating the user';
+                        err.message = 'Error when getting the user';
                         err.status = 500;
                         return next(err);
                     }
-                    
-                    return next();
-                });
+        
+                    if (u) {
+                        var err = new Error('Email already in use');
+                        err.status = 400;
+                        return next(err);
+                    }
 
+                    if (!validator.validate(req.body.email)) {
+                        var err = new Error('Incorrect email format');
+                        err.status = 400;
+                        return next(err);
+                    }
+                });
+            }
+           
+            user.email = req.body.email &&  req.body.email !== 'undefined' ? req.body.email : user.email; 
+            user.password = req.body.password &&  req.body.password !== 'undefined' ? req.body.password : user.password;               
+            user.save(function (err) {
+                if (err) {
+                    err.message = 'Error when updating the user';
+                    err.status = 500;
+                    return next(err);
+                }
+                
+                return next();
             });
         });
     },
