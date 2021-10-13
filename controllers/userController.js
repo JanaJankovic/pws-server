@@ -92,7 +92,7 @@ module.exports = {
             }
 
             if (user) {
-                error.message = 'Email already in use';
+                var error = new Error('Email already in use');
                 error.status = 400;
                 return next(err);
             }
@@ -215,7 +215,7 @@ module.exports = {
                 }
     
                 if (user) {
-                    err.message = 'Email already in use';
+                    var err = new Error('Email already in use');
                     err.status = 400;
                     return next(err);
                 }
