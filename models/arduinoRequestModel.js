@@ -6,7 +6,6 @@ var arduinoRequestSchema = new Schema({
 	 	type: Schema.Types.ObjectId,
 	 	ref: 'users'
 	},
-	'device_ip' : String,
 	'byte_address' : String,
 	'moisture_pin' : Number,
 	'relay_pin' : Number,

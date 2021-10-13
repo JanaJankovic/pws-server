@@ -13,7 +13,6 @@ var notificationSchema = new Schema({
 var userSchema = new Schema({
 	'email' : String,
 	'password' : String,
-	'ip' : String,
 	'notifications' : [notificationSchema]
 });
 

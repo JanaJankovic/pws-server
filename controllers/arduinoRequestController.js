@@ -11,10 +11,9 @@ module.exports = {
      * arduinoRequestController.show()
      */
     show: function (req, res) {
-        var ip = req.params.ip;
         var uid = req.params.user_id;
 
-        ArduinorequestModel.findOne({device_ip: ip, user_id: uid, completed: false}, function (err, arduinoRequest) {
+        ArduinorequestModel.findOne({user_id: uid, completed: false}, function (err, arduinoRequest) {
             if (err) {
                 return res.status(500).json({
                     message: 'Error when getting arduinoRequest.',
@@ -38,7 +37,6 @@ module.exports = {
     create: function (req, res) {
         var arduinoRequest = new ArduinorequestModel({
 			user_id : req.body.user_id,
-			device_ip : req.body.device_ip,
 			byte_address : req.body.byte_address,
 			moisture_pin : req.body.moisture_pin,
 			relay_pin : req.body.relay_pin,

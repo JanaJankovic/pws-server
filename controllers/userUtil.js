@@ -73,7 +73,6 @@ module.exports = {
                     _id: user._id,
                     email : user.email,
                     password : user.password,
-                    ip : user.ip,
                     notifications : user.notifications,
                     recipients: recipients
                 });

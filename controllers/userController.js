@@ -80,15 +80,13 @@ module.exports = {
         body :
         { 
             "email" : String,
-            "password" : String,
-            "ip" : String
+            "password" : String
         }
     */
     createUser: function (req, res) {
         var user = new UserModel({
 			email : req.body.email,
 			password : req.body.password,
-            ip : req.body.ip,
             notifications: []
         });
 
@@ -174,7 +172,6 @@ module.exports = {
     body : {
         "email" : String,
         "password" : String
-        "ip": String
     }
       
      */
@@ -196,9 +193,7 @@ module.exports = {
 
             user.email = req.body.email &&  req.body.email !== 'undefined' ? req.body.email : user.email;
             user.password = req.body.password &&  req.body.password !== 'undefined' ? req.body.password : user.password;
-            user.ip = req.body.ip && req.body.ip !== 'undefined' ? req.body.ip : user.ip;
-            
-			
+            			
             user.save(function (err) {
                 if (err) {
                     err.message = 'Error when updatign the user';
