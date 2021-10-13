@@ -21,7 +21,7 @@ module.exports = {
             if (error) {
                 error.message = 'Error when getting the user';
                 error.status = 500;
-                return next(err);
+                return next(error);
             }
 
             if (!user) {
@@ -88,13 +88,13 @@ module.exports = {
             if (error) {
                 error.message = 'Error when getting the user';
                 error.status = 500;
-                return next(err);
+                return next(error);
             }
 
             if (user) {
                 var error = new Error('Email already in use');
                 error.status = 400;
-                return next(err);
+                return next(error);
             }
 
             var user = new UserModel({
