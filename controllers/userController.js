@@ -19,8 +19,8 @@ module.exports = {
 
         UserModel.findOne({_id: id}, function (error, user) {
             if (error) {
-                err.message = 'Error when getting the user';
-                err.status = 500;
+                error.message = 'Error when getting the user';
+                error.status = 500;
                 return next(err);
             }
 
@@ -86,14 +86,14 @@ module.exports = {
     createUser: function (req, res) {
         UserModel.findOne({email : req.body.email}, function (error, user) {
             if (error) {
-                err.message = 'Error when getting the user';
-                err.status = 500;
+                error.message = 'Error when getting the user';
+                error.status = 500;
                 return next(err);
             }
 
             if (user) {
-                err.message = 'Email already in use';
-                err.status = 400;
+                error.message = 'Email already in use';
+                error.status = 400;
                 return next(err);
             }
 
