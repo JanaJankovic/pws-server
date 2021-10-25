@@ -4,6 +4,13 @@ var UserModel = require('../models/userModel.js');
 var mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
 
+
+function validatePins(byteAddress, moisturePin, relayPin){
+    return /^([0-1]{4})$/.test(byteAddress) &&
+           /^(A[0-9])$/.test(moisturePin) &&
+           (relayPin > 20 && relayPin < 54)
+}
+
 /**
  * recipientController.js
  *
@@ -15,92 +22,96 @@ module.exports = {
      * recipientController.create()
      */
     create: function (req, res, next) {
-        
+
         if ( typeof req.body.relay_pin == 'undefined' && !req.body.relay_pin &&
         typeof req.body.moisture_pin == 'undefined' && !req.body.moisture_pin &&
         typeof req.body.byte_address == 'undefined' && !req.body.byte_address &&
-        typeof req.body.plant._id == 'undefined' && !req.body.plant._id){
+        typeof req.body.plant._id == 'undefined' && !req.body.plant._id) {
 
             var err = new Error('Wrong body');
             err.status = 400;
             return next(err);
            
-       }
+        } else if (validatePins(req.body.byte_address, req.body.moisture_pin, req.body.relay_pin)) {
+            var id = req.params.user_id;
 
-        var id = req.params.user_id;
-
-        UserModel.findOne({_id: id}, function (err, user) {
-            if (err) {
-                err.message = 'Error when getting the user';
-                err.status = 500;
-                return next(err);
-            }
-
-            if (!user) {
-                var err = new Error('No such user');
-                err.status = 404;
-                return next(err);
-            }
-
-            PlantModel.findOne({ _id: req.body.plant._id }, function (err, plant) {
+            UserModel.findOne({_id: id}, function (err, user) {
                 if (err) {
-                    err.message = 'Error when getting the plant';
+                    err.message = 'Error when getting the user';
                     err.status = 500;
                     return next(err);
                 }
 
-                if (!plant) {
-                    var err = new Error('No such plant');
+                if (!user) {
+                    var err = new Error('No such user');
                     err.status = 404;
                     return next(err);
                 }
 
-                RecipientModel.findOne(
-                    {
-                        user_id: user._id, 
-                        plant_id:plant._id, 
-                        relay_pin:req.body.relay_pin,
-                        moisture_pin: req.body.moisture_pin,  
-                        byte_address: req.body.byte_address
-
-                    }, function (err, recipient) {
+                PlantModel.findOne({ _id: req.body.plant._id }, function (err, plant) {
                     if (err) {
-                        err.message = 'Error when getting the recipient';
+                        err.message = 'Error when getting the plant';
                         err.status = 500;
                         return next(err);
                     }
-        
-                    if (!recipient) {
-                        var rec = new RecipientModel({
-                            plant_id: ObjectId(plant._id),
-                            user_id: ObjectId(user._id),
-                            relay_pin: req.body.relay_pin,
-                            moisture_pin: req.body.moisture_pin,  
-                            byte_address: req.body.byte_address,
-                            water_log : []  
-                        });
 
-                        rec.save(function (err) {
-                            if (err) {
-                                err.message = 'Error when creating the recipient';
-                                err.status = 500;
-                                return next(err);
-                            }
-                            
-                            return next();
-                        });
-
-                    } else {
-                        var err = new Error('Recipient already exists');
-                        err.status = 400;
+                    if (!plant) {
+                        var err = new Error('No such plant');
+                        err.status = 404;
                         return next(err);
                     }
 
-                });
+                    RecipientModel.findOne(
+                        {
+                            user_id: user._id, 
+                            plant_id:plant._id, 
+                            relay_pin:req.body.relay_pin,
+                            moisture_pin: req.body.moisture_pin,  
+                            byte_address: req.body.byte_address
 
-            });
+                        }, function (err, recipient) {
+                        if (err) {
+                            err.message = 'Error when getting the recipient';
+                            err.status = 500;
+                            return next(err);
+                        }
             
-        });
+                        if (!recipient) {
+                            var rec = new RecipientModel({
+                                plant_id: ObjectId(plant._id),
+                                user_id: ObjectId(user._id),
+                                relay_pin: req.body.relay_pin,
+                                moisture_pin: req.body.moisture_pin,  
+                                byte_address: req.body.byte_address,
+                                water_log : []  
+                            });
+
+                            rec.save(function (err) {
+                                if (err) {
+                                    err.message = 'Error when creating the recipient';
+                                    err.status = 500;
+                                    return next(err);
+                                }
+                                
+                                return next();
+                            });
+
+                        } else {
+                            var err = new Error('Recipient already exists');
+                            err.status = 400;
+                            return next(err);
+                        }
+
+                    });
+
+                });
+                
+            }); 
+        } else {
+            var err = new Error('Invalid pinout');
+            err.status = 400;
+            return next(err);
+        }
     },
 
     /**
@@ -124,9 +135,9 @@ module.exports = {
 
 			recipient.plant_id = typeof req.body.plant != 'undefined' && req.body.plant._id ? req.body.plant._id : recipient.plant_id;
             recipient.path = req.body.path ? req.body.path : recipient.path;
-			recipient.byte_address = req.body.byte_address ? req.body.byte_address : recipient.byte_address;
-			recipient.relay_pin = req.body.relay_pin ? req.body.relay_pin : recipient.relay_pin;
-            recipient.moisture_pin = req.body.moisture_pin ? req.body.moisture_pin : recipient.moisture_pin;
+			recipient.byte_address = req.body.byte_address && /^([0-1]{4})$/.test(req.body.byte_address) ? req.body.byte_address : recipient.byte_address;
+			recipient.relay_pin = req.body.relay_pin && (req.body.relay_pin > 20 && req.body.relay_pin < 54) ? req.body.relay_pin : recipient.relay_pin;
+            recipient.moisture_pin = req.body.moisture_pin && /^(A[0-9])$/.test(req.body.moisture_pin)? req.body.moisture_pin : recipient.moisture_pin;
             recipient.water_log = req.body.water_log ? req.body.water_log : recipient.water_log;
             if(req.body.date_time){
                 recipient.water_log.push(req.body.date_time);

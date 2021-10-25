@@ -13,7 +13,7 @@ var recipientSchema = new Schema({
    	'path': String,
 	'byte_address' : String,
 	'relay_pin' : Number,
-	'moisture_pin' : Number,
+	'moisture_pin' : String,
 	'water_log' : Array
 });
 

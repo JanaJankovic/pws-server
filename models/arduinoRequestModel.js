@@ -7,7 +7,7 @@ var arduinoRequestSchema = new Schema({
 	 	ref: 'users'
 	},
 	'byte_address' : String,
-	'moisture_pin' : Number,
+	'moisture_pin' : String,
 	'relay_pin' : Number,
 	'activate_pump' : Boolean,
 	'fetch_data' : Boolean,

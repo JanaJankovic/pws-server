@@ -145,49 +145,50 @@ module.exports = {
         if ( typeof req.body.title == 'undefined' && !req.body.title &&
             typeof req.body.type == 'undefined' && !req.body.type &&
             typeof req.body.note == 'undefined' && !req.body.note &&
-            typeof req.body.date_time == 'undefined' && !req.body.date_time){
+            typeof req.body.date_time == 'undefined' && !req.body.date_time) {
 
-                var err = new Error('Wrong body');
-                err.status = 400;
-                return next(err);
+            var err = new Error('Wrong body');
+            err.status = 400;
+            return next(err);
                
-           }
+        } else {
 
-        UserModel.findOne({_id: id}, function (err, user) {
-            if (err) {
-                err.message = 'Error when getting the user';
-                err.status = 500;
-                return next(err);
-            }
-
-            if (!user) {
-                var err = new Error('No such user');
-                err.status = 404;
-                return next(err);
-            }
-
-        
-            var newNotification = {
-                title : req.body.title,
-                type : req.body.type,
-                note : req.body.note,
-                date_time : req.body.date_time, 
-                read : false
-                
-            }
-
-			user.notifications.push(newNotification);
-			
-            user.save(function (err) {
+            UserModel.findOne({_id: id}, function (err, user) {
                 if (err) {
                     err.message = 'Error when getting the user';
                     err.status = 500;
                     return next(err);
                 }
-
-                return next();
+    
+                if (!user) {
+                    var err = new Error('No such user');
+                    err.status = 404;
+                    return next(err);
+                }
+    
+            
+                var newNotification = {
+                    title : req.body.title,
+                    type : req.body.type,
+                    note : req.body.note,
+                    date_time : req.body.date_time, 
+                    read : false
+                    
+                }
+    
+                user.notifications.push(newNotification);
+                
+                user.save(function (err) {
+                    if (err) {
+                        err.message = 'Error when getting the user';
+                        err.status = 500;
+                        return next(err);
+                    }
+    
+                    return next();
+                });
             });
-        });
+        }
     },
 
     /*
