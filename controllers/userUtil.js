@@ -97,10 +97,14 @@ module.exports = {
 
     aggregateShortRecipients: function(req, res){
         var id = req.params.user_id;
+        var address = req.params.byte_address;
 
         RecipientModel.aggregate([
             { 
-                $match: { "user_id" : ObjectId(id) }
+                $match: { 
+                    "user_id" : ObjectId(id),
+                    "byte_address" : address,
+                 }
             }, 
             { 
                 $lookup: 

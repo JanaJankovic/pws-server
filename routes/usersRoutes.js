@@ -18,7 +18,7 @@ function requiresLogin(req, res, next) {
  * GET - user, just recipients or notifications in case request is made from esp8266
  */
 router.get('/user/:user_id',  userController.showUser, userUtil.aggregateUser);
-router.get('/user_short/:user_id',  userController.showUser, userUtil.aggregateShortRecipients);
+router.get('/user_short/:user_id/:byte_address',  userController.showUser, userUtil.aggregateShortRecipients);
 
 /*
  * POST - creating new user, recipient, notification
