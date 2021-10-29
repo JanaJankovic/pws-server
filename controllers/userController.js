@@ -89,14 +89,13 @@ module.exports = {
             if (error) {
                 return res.status(500).json({
                     message: 'Error when getting the user',
-                    error: err
+                    error: error
                 });
             }
 
             if (user) {
                 return res.status(400).json({
-                    message: 'Email already in use',
-                    error: err
+                    message: 'Email already in use'
                 });
             }
             
@@ -119,8 +118,7 @@ module.exports = {
                 });
             } else {
                 return res.status(400).json({
-                    message: 'Invalid email format',
-                    error: err
+                    message: 'Invalid email format'
                 });
             }
         });
