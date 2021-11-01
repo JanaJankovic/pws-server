@@ -7,6 +7,12 @@ var userUtil = require('../controllers/userUtil.js');
  * POST
  */
 router.post('/:user_id', recipientController.create, userUtil.aggregateUser);
+router.post('/water/:id', recipientController.addDateLog);
+
+/*
+ * GET
+ */
+router.get('/short/:user_id/:byte_address', recipientController.list);
 
 /*
  * PUT

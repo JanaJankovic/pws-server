@@ -1,16 +1,20 @@
 var mongoose = require('mongoose');
-var Schema   = mongoose.Schema;
+var Schema = mongoose.Schema;
 
 var arduinoRequestSchema = new Schema({
-	'user_id' : {
-	 	type: Schema.Types.ObjectId,
-	 	ref: 'users'
+	'user_id': {
+		type: Schema.Types.ObjectId,
+		ref: 'users'
 	},
-	'byte_address' : String,
-	'moisture_pin' : String,
-	'relay_pin' : Number,
-	'activate_pump' : Boolean,
-	'fetch_data' : Boolean,
+	'recipient_id': {
+		type: Schema.Types.ObjectId,
+		ref: 'recipients'
+	},
+	'byte_address': String,
+	'moisture_pin': Number,
+	'relay_pin': Number,
+	'activate_pump': Boolean,
+	'fetch_data': Boolean,
 	'completed': Boolean
 });
 

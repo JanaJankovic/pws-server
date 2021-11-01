@@ -5,7 +5,7 @@ var arduinoRequestController = require('../controllers/arduinoRequestController.
 /*
  * GET
  */
-router.get('/:user_id', arduinoRequestController.show);
+router.get('/:user_id/:byte_address', arduinoRequestController.show);
 
 /*
  * POST

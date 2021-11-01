@@ -1,6 +1,7 @@
 var UserModel = require('../models/userModel.js');
 var RecipientModel = require('../models/recipientModel.js');
 var validator = require("email-validator");
+const formatter = require('date-and-time');
 var mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -142,8 +143,7 @@ module.exports = {
 
         if ( typeof req.body.title == 'undefined' && !req.body.title &&
             typeof req.body.type == 'undefined' && !req.body.type &&
-            typeof req.body.note == 'undefined' && !req.body.note &&
-            typeof req.body.date_time == 'undefined' && !req.body.date_time) {
+            typeof req.body.note == 'undefined' && !req.body.note) {
 
             var err = new Error('Wrong body');
             err.status = 400;
@@ -164,12 +164,11 @@ module.exports = {
                     return next(err);
                 }
     
-            
                 var newNotification = {
                     title : req.body.title,
                     type : req.body.type,
                     note : req.body.note,
-                    date_time : req.body.date_time, 
+                    date_time :  formatter.format(new Date(), 'DD/MM/YYYY HH:mm:ss'), 
                     read : false
                     
                 }
