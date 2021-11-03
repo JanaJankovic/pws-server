@@ -248,7 +248,7 @@ module.exports = {
             }
 
             var recipients = [];
-            for (i in rs) {
+            for (var i = 0; i < rs.length; i++) {
                 var isWater = isWateringTime(rs[i]._id, res, rs[i].frequency, rs[i].frequency_modifier, rs[i].counter, rs[i].growth_month, rs[i].hibernation_month);
                 
                 var r = {

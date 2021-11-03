@@ -290,7 +290,7 @@ module.exports = {
             }
 
 
-            for (var i in user.notifications) {
+            for (var i = 0; i < user.notifications.length; i++) {
                 if (user.notifications[i]._id.equals(ObjectId(notification_id))) {
                     user.notifications[i].read = true;
                     break;
