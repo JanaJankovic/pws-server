@@ -23,15 +23,13 @@ function isWateringTime(id, res, frequency, frequency_modifier, counter, growth_
     var date = new Date();
     var interval = Math.floor(new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate() / f);
     var last = counter * interval;
-    var next = (counter + 1) * interval;
     var current = new Date().getDate();
 
-    if (current < last) {
+    if (current <= last) {
         setToZero(id, res);
-        next = interval;
     } else {
-        console.log(f, counter, interval, current, last, next);
-        if (current == next)
+        console.log(f, counter, interval, current, last);
+        if (current % interval == 0)
             return true;
     }
 
