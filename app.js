@@ -18,6 +18,7 @@ var plantsRouter = require('./routes/plantRoutes');
 var recipientsRouter = require('./routes/recipientRoutes');
 var requestsRouter = require('./routes/arduinoRequestRoutes');
 var reponsesRouter = require('./routes/arduinoResponseRoutes');
+var graphRouter = require('./routes/graphDataRoutes');
 
 var app = express();
 
@@ -45,6 +46,7 @@ app.use('/plants', plantsRouter);
 app.use('/recipients', recipientsRouter);
 app.use('/requests', requestsRouter);
 app.use('/responses', reponsesRouter);
+app.use('/graph_data', graphRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
