@@ -29,7 +29,7 @@ function isWateringTime(id, res, frequency, frequency_modifier, counter, growth_
         setToZero(id, res);
     } else {
         console.log(f, counter, interval, current, last);
-        if (current % interval == 0 && current != last)
+        if (current % interval == 0 && last < current)
             return true;
     }
 
@@ -179,8 +179,7 @@ module.exports = {
             }
 
             recipient.water_log.push(formatter.format(new Date(), 'DD/MM/YYYY HH:mm:ss'));
-            var date = new Date();
-            recipient.counter = (recipient.counter + 1) % (new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate());
+            recipient.counter = recipient.counter + 1;
 
             recipient.save(function (err) {
                 if (err) {
