@@ -26,7 +26,7 @@ function isWateringTime(id, res, frequency, frequency_modifier, counter, growth_
     var last = counter * interval;
     var current = new Date().getDate();
 
-    if (current <= last) {
+    if (current < last) {
         setToZero(id, res);
     } else {
         console.log(f, counter, interval, current, last);
