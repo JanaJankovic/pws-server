@@ -28,12 +28,13 @@ function isWateringTime(id, res, frequency, frequency_modifier, counter, growth_
 
     if (current < last) {
         setToZero(id, res);
-    } else {
-        console.log(f, counter, interval, current, last);
-        if (current % interval == 0 && last < current)
-            return true;
-    }
+        last = 0;
+    } 
 
+    console.log(f, counter, interval, current, last);
+    if (current % interval == 0 && last < current)
+        return true;
+    
     return false;
 }
 
