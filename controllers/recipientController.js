@@ -183,6 +183,7 @@ module.exports = {
 
             recipient.water_log.push(formatter.format(new Date(), 'DD/MM/YYYY HH:mm:ss'));
             recipient.counter = req.body.message == "Schedule" ? recipient.counter + 1 : recipient.counter;
+            console.log(recipient.counter, req.body.message);
 
             recipient.save(function (err) {
                 if (err) {
