@@ -19,7 +19,8 @@ function isWinterSeason(currentMonth, growMonth, winterMonth) {
 
 
 function isWateringTime(id, res, frequency, frequency_modifier, counter, growth_month, hibernation_month) {
-    var f = isWinterSeason(new Date().getMonth() + 1, growth_month, hibernation_month) ? frequency - frequency_modifier : frequency;
+    var f = isWinterSeason(new Date().getMonth() + 1, growth_month, hibernation_month) ?
+     frequency - frequency_modifier : frequency;
     var date = new Date();
     var interval = Math.floor(new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate() / f);
     var last = counter * interval;
@@ -179,7 +180,7 @@ module.exports = {
             }
 
             recipient.water_log.push(formatter.format(new Date(), 'DD/MM/YYYY HH:mm:ss'));
-            recipient.counter = recipient.counter + 1;
+            recipient.counter = req.body.message == "Schedule" ? recipient.counter + 1 : recipient.counter;
 
             recipient.save(function (err) {
                 if (err) {
