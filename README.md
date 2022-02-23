@@ -1,5 +1,5 @@
 # PWS Server
-> Node.js server and MongoDB for back-end part of plant wastering system.
+> Node.js server and MongoDB for back-end part of plant watering system.
 
 ## Table of contents
 * [General info](#general-info)
