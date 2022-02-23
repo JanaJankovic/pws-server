@@ -32,6 +32,12 @@ npm start
 ```
 ! Disclaimer if you want a running local version you have to change MONGODB_URI in app.js to your local database.
 
+## Data Models
+
+* User - credentials and notifications array
+* Plant - basic plant information connceted to plant care
+* Recipient - plant located inside watering system (location address, relay pin and pin for moisture sensor)
+
 ## Features
 
 * User CRUD
