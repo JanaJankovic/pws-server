@@ -4,12 +4,6 @@
  *   schemas:
  *     Notification:
  *       type: object
- *       required:
- *         - title
- *         - type
- *         - note
- *         - date_time
- *         - read
  *       properties:
  *         id:
  *           type: string
@@ -183,6 +177,58 @@
  *         description: The user was deleted
  *       404:
  *         description: The user was not found
+ * /users/notification/{id}:
+ *   post:
+ *     summary: Create a user notification
+ *     tags: [Notifications]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The user id
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Notification'
+ *     responses:
+ *       200:
+ *         description: The created user.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       500:
+ *         description: Some server error
+ * /users/update_notification/{user_id}/{notification_id}:
+ *   put:
+ *     summary: Update a user notification
+ *     tags: [Notifications]
+ *     parameters:
+ *       - in: path
+ *         name: user_id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The user id
+ *       - in: path
+ *         name: notification_id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The notification id
+ *     responses:
+ *       200:
+ *         description: The created user.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       500:
+ *         description: Some server error
  */
 
 const express = require("express");
