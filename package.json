@@ -19,6 +19,8 @@
     "mongoose": "^6.0.7",
     "morgan": "~1.9.1",
     "pug": "2.0.0-beta11",
-    "sun-time": "^1.0.2"
+    "sun-time": "^1.0.2",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0"
   }
 }

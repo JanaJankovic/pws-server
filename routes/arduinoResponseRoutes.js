@@ -1,20 +1,20 @@
-var express = require('express');
-var router = express.Router();
-var arduinoResponseController = require('../controllers/arduinoResponseController.js');
+const express = require("express");
+const router = express.Router();
+const arduinoResponseController = require("../controllers/arduinoResponseController.js");
 
 /*
  * GET
  */
-router.get('/:id', arduinoResponseController.show);
+router.get("/:id", arduinoResponseController.show);
 
 /*
  * POST
  */
-router.post('/', arduinoResponseController.create);
+router.post("/", arduinoResponseController.create);
 
 /*
  * DELETE
  */
-router.delete('/:id', arduinoResponseController.remove);
+router.delete("/:id", arduinoResponseController.remove);
 
 module.exports = router;
