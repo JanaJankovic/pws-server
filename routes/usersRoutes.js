@@ -5,7 +5,6 @@
  *     Notification:
  *       type: object
  *       required:
- *         - id
  *         - title
  *         - type
  *         - note
@@ -17,7 +16,6 @@
  *           description: The auto-generated id of the notification
  *         title:
  *           type: string
- *           format: email
  *           description: The title of notification
  *         note:
  *           type: string
